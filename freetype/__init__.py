@@ -1015,18 +1015,27 @@ class Face( object ):
             FT_Done_Face( self._FT_Face )
 
     def get_format(self):
+        '''
+        Return a string describing the format of a given face, using values
+        which can be used as an X11 FONT_PROPERTY. Possible values are
+        ‘TrueType’, ‘Type 1’, ‘BDF’, ‘PCF’, ‘Type 42’, ‘CID Type 1’, ‘CFF’,
+        ‘PFR’, and ‘Windows FNT’.
+        '''
+        
         return FT_Get_X11_Font_Format(self._FT_Face)
 
     def get_fstype(self):
-        flags = {0: "INSTALLABLE_EMBEDDING",
-                 2: "RESTRICTED_LICENSE_EMBEDDING",
-                 4: "PREVIEW_AND_PRINT_EMBEDDING",
-                 8: "EDITABLE_EMBEDDING",
-                 100: "NO_SUBSETTING",
-                 200: "BITMAP_EMBEDDING_ONLY"
-        }
+        '''
+        Return the fsType flags for a font (embedding permissions).
+
+        The return value is a tuple containing the freetype enum name
+        as a string and the actual flag as an int
+        '''
+
         flag = FT_Get_FSType_Flags(self._FT_Face)
-        return flags.get(flag, "ERROR")
+        for k, v in FT_FSTYPE_XXX.items():
+            if v == flag:
+                return k, v
 
     def set_char_size( self, width=0, height=0, hres=72, vres=72 ):
         '''
