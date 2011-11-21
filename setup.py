@@ -12,6 +12,7 @@ setup( name        = 'freetype-py',
        author_email='Nicolas.Rougier@inria.fr',
        url='http://code.google.com/p/freetype-py/',
        packages=['freetype'],
+       package_data={'freetype': ['libfreetype.dll']},
        classifiers = [
           'Development Status :: 4 - Beta',
           'Environment :: X11 Applications',
